@@ -1,0 +1,120 @@
+class GeoPoint:
+    def __init__(self, lat=0, lon=0, description = "TBD"):
+        self.lat = 0
+        self.lon = 0
+        self.description= " "
+    def SetPoint(self, loclat, loclon):
+        self.lat = loclat
+        self.lon = loclon
+        self.description = "TDB"
+    def GetPoint(self):
+        return (self.loclat, self.loclon)
+    def SetDescription(self, description):
+        self.description = description
+    def GetDescription(self):
+        return(self.description)
+
+    def Distance(self, userloc):
+        from math import sin, cos, sqrt, atan2, radians
+        R = 3956  #radius in miles
+        lat1 = radians(self.lat)
+        lon1 = radians(self.lon)
+        lat2 = radians(userlat)
+        lon2 = radians(userlon)
+
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        distance = R * c
+        return int(distance)
+        return str(SetDescription)
+    
+# Header
+print("Welcome User")
+print("This program calculates which New Mexico location you are closest to, based your coordinates.")
+print("The New Mexico locations included are: Las Cruces, Raton, Tumcumcari, Gallup, and Albuquerque.\n")
+
+doanother = 'y'
+while doanother == 'y':
+    
+# UserInput
+    userlat = (float(input("\nPlease enter the latitude of a location in decimal degrees: ".strip())))
+    userlon = (float(input("Please enter the longitude of a location in decimal degrees: \n".strip())))
+    userlocation = (userlat, userlon)
+    userloc = GeoPoint(userlat, userlon, "User Location")
+
+    locationlist=[]
+    locdist = []
+
+    f = open('locationlist.txt', 'r')
+    alllocations = f.readlines()
+    for line in alllocations:
+        newloc = [line.split('\n')]
+    locationlist.append(newloc)
+    locdist.append(newloc)
+    f.close
+
+#Make Objects
+    LasCruces = GeoPoint()
+    LasCruces.SetPoint(32.341906, -106.758862)
+    LasCruces.SetDescription('Las Cruces')
+    distanceToLasCruces = LasCruces.Distance(userlocation)
+    LasCrucesLocDistance = (distanceToLasCruces, 'LasCruces,')
+    locationlist.append(LasCruces)
+    locdist.append(LasCrucesLocDistance)
+
+
+    Raton = GeoPoint()
+    Raton.SetPoint(36.884615, -104.439862)
+    Raton.SetDescription('Raton')
+    distanceToRaton = Raton.Distance(userlocation)
+    RatonLocDistance = (distanceToRaton, 'Raton,')
+    locationlist.append(Raton)
+    locdist.append(RatonLocDistance)
+
+
+    Tucumcari = GeoPoint()
+    Tucumcari.SetPoint(35.171950, -103.724588)
+    Tucumcari.SetDescription('Tucumcari')
+    distanceToTucumcari= Tucumcari.Distance(userlocation)
+    TucumcariLocDistance = (distanceToTucumcari, 'Tucumcari,')
+    locationlist.append(Tucumcari)
+    locdist.append(TucumcariLocDistance)
+
+
+    Gallup = GeoPoint()
+    Gallup.SetPoint(35.528541, -108.758155)
+    Gallup.SetDescription('Gallup')
+    distanceToGallup = Gallup.Distance(userlocation)
+    GallupLocDistance = (distanceToGallup, 'Gallup,')
+    locationlist.append(Gallup)
+    locdist.append(GallupLocDistance)
+
+
+    Albuquerque = GeoPoint()
+    Albuquerque.SetPoint(35.105925, -106.628423)
+    Albuquerque.SetDescription('Albuquerque')
+    distanceToAlbuquerque = Albuquerque.Distance(userlocation)
+    AlbuquerqueLocDistance = ((distanceToAlbuquerque), 'Albuquerque,')
+    locationlist.append(Albuquerque)
+    locdist.append(AlbuquerqueLocDistance)
+
+
+    loclist = [distanceToLasCruces,
+                   distanceToRaton,
+                   distanceToTucumcari,
+                   distanceToGallup,
+                   distanceToAlbuquerque]
+    locdistance = (LasCrucesLocDistance, RatonLocDistance, TucumcariLocDistance, GallupLocDistance, AlbuquerqueLocDistance)
+    locationdistance = min(locdistance)
+    closest =(locationdistance[0]),(locationdistance[1])
+
+    print('\nThe New Mexico town you are closest to is', closest[1], 'which is', closest[0], 'miles away.')
+
+    doanother = input("Would you like to try again? (y/n) ")
+    if doanother == 'n':
+        print("Thanks. Goodbye!")
+        break
